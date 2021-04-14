@@ -10,7 +10,6 @@ RUN npm install
 RUN npm run build
 
 FROM stage_0 AS stage_2
-COPY ./server ./
 COPY --from=stage_1 /usr/app/dist ./public
 RUN npm install
 
