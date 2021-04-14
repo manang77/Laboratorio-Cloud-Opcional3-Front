@@ -10,10 +10,5 @@ RUN npm install
 RUN npm run build
 
 FROM stage_0 AS stage_2
-COPY --from=stage_1 /usr/app/dist ./public
-RUN npm install
-
-ENV PORT=8083
-EXPOSE 8083
-
-ENTRYPOINT [ "node", "index" ]
+ENV STATIC_FILES_PATH=./public
+COPY --from=stage_1 /usr/app/dist $STATIC_FILES_PATH
