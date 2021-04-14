@@ -16,4 +16,4 @@ RUN npm install
 ENV PORT=8083
 EXPOSE 8083
 
-ENTRYPOINT [ "node", "index.js" ]
+ENTRYPOINT [ "node", "index" ]
