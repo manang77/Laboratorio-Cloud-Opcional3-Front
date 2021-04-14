@@ -9,6 +9,12 @@ COPY ./ ./
 RUN npm install
 RUN npm run build
 
-FROM stage_0 AS stage_2
-ENV STATIC_FILES_PATH=./public
-COPY --from=stage_1 /usr/app/dist $STATIC_FILES_PATH
+FROM stage_0 AS stage_1
+COPY ./server ./
+COPY --from=stage_1 /usr/app/dist ./public
+RUN npm install --only=production
+
+ENV PORT=8080
+EXPOSE 8080
+
+ENTRYPOINT [ "node", "index.js" ]
