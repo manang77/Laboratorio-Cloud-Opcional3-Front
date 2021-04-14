@@ -19,7 +19,7 @@ jobs:
       - name: Login to Heroku
         run: heroku container:login
       - name: Build Docker image
-        run: docker build -t ${{env.IMAGE_NAME}} --build-arg BASE_SERVER_URL={{secrets.BASE_SERVER_URL}} .
+        run: docker build -t ${{env.IMAGE_NAME}} --build-arg BASE_SERVER_URL=${{secrets.BASE_SERVER_URL}} .
       - name: Push Docker Image
         run: docker push ${{env.IMAGE_NAME}}
       - name: Application Release in Heroku
