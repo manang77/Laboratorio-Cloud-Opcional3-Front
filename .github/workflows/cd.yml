@@ -1,0 +1,29 @@
+name: Deployment Ejercicio Opcional 3 Laboratorio Cloud Front
+
+on:
+  push:
+    branches:
+      - master
+env:
+  HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+  IMAGE_NAME: registry.heroku.com/${{secrets.HEROKU_APP_NAME}}/web
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Heroku installation
+        run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - name: Login to Heroku
+        run: heroku container:login
+      - name: Build Docker image
+        run: docker build -t ${{env.IMAGE_NAME}} --build-arg BASE_SERVER_URL={{secrets.BASE_SERVER_URL}} .
+      - name: Push Docker Image
+        run: docker push ${{env.IMAGE_NAME}}
+      - name: Application Release in Heroku
+        run: heroku container:release web -a ${{secrets.HEROKU_APP_NAME}}
+
+
+
